@@ -1,6 +1,6 @@
-# Turborepo starter
+##codeeditor
+for sending the file to kafka server ,send it to `localhost:3003`
 
-This is an official starter Turborepo.
 
 ## Using this example
 

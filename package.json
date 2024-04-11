@@ -20,5 +20,21 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "workspaces": "^0.1.0"
+  },
+  "description": "for sending the file to kafka server ,send it to `localhost:3003`",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KT0601/CODEEASY.git"
+  },
+  "author": "Tanish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KT0601/CODEEASY/issues"
+  },
+  "homepage": "https://github.com/KT0601/CODEEASY#readme"
 }
