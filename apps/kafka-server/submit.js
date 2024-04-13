@@ -2,15 +2,15 @@ import { kafka } from "./client.js";
 
 const producer = kafka.producer();
 
-async function fileToBase64(data) {
-    try {
-        // console.log(data);
-        const buffer = Buffer.from(data, 'utf-8');
-        const base64String = buffer.toString('base64');
-        return base64String;      } catch (error) {
-        throw new Error("Error encoding file to base64: " + error.message);
-    }
-}
+// async function fileToBase64(data) {
+//     try {
+//         // console.log(data);
+//         const buffer = Buffer.from(data, 'utf-8');
+//         const base64String = buffer.toString('base64');
+//         return base64String;      } catch (error) {
+//         throw new Error("Error encoding file to base64: " + error.message);
+//     }
+// }
 
 async function handleCode(file1, file2) {
     try {
@@ -18,11 +18,11 @@ async function handleCode(file1, file2) {
 
         await producer.connect();
         console.log("Reading files and sending to Kafka...");
-        console.log("File 1 Content :", file1);
-        console.log("File 1 Content :", file2);
+        // console.log("File 1 Content :", file1);
+        // console.log("File 1 Content :", file2);
 
-        const file1Content = await fileToBase64(file1);
-        const file2Content = await fileToBase64(file2);
+        const file1Content = file1;
+        const file2Content = file2;
         
         console.log("File 1 Content (base64):", file1Content);
         console.log("File 2 Content (base64):", file2Content);

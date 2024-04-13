@@ -7,9 +7,9 @@ const handleFileMessage = async ({ key, value }) => {
     try {
         const { file1Content, file2Content } = JSON.parse(value);
         // console.log("in sever",file1Content,file2Content)
-        const decodedFile1Content = Buffer.from(file1Content, 'base64').toString('utf-8');
-        const decodedFile2Content = Buffer.from(file2Content, 'base64').toString('utf-8');
-        runCode(key, decodedFile1Content, decodedFile2Content);
+        // const decodedFile1Content = Buffer.from(file1Content, 'base64').toString('utf-8');
+        // const decodedFile2Content = Buffer.from(file2Content, 'base64').toString('utf-8');
+        runCode(key, file1Content, file2Content);
             // console.log("in consumer.js ", decodedFile1Content);
 
         // Here you can perform further processing with the decoded file content
