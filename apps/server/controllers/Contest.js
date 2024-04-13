@@ -20,42 +20,42 @@ async function fileToBase64(filePath) {
 // Create a new document and save it to the database
 
 // createCppWorker(1,"test1.cpp","input.txt");
-async function writeToFile(content, filePath) {
-    try {
-        // console.log(filePath,content)
-        // console.log(content)
-        await fs.promises.writeFile(filePath, content);
-        console.log(`File ${filePath} written successfully.`);
-    } catch (err) {
-        console.error(`Error writing file ${filePath}: ${err.message}`);
-        throw err;
-    }
-}
+// async function writeToFile(content, filePath) {
+//     try {
+//         // console.log(filePath,content)
+//         // console.log(content)
+//         await fs.promises.writeFile(filePath, content);
+//         console.log(`File ${filePath} written successfully.`);
+//     } catch (err) {
+//         console.error(`Error writing file ${filePath}: ${err.message}`);
+//         throw err;
+//     }
+// }
 
-async function deleteFile(filePath) {
-    return new Promise((resolve, reject) => {
-        fs.unlink(filePath, (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve();
-        });
-    });
-}
+// async function deleteFile(filePath) {
+//     return new Promise((resolve, reject) => {
+//         fs.unlink(filePath, (err) => {
+//             if (err) {
+//                 reject(err);
+//                 return;
+//             }
+//             resolve();
+//         });
+//     });
+// }
 
 export async function runCode(submission_id, sourcefile, inputfile) {
     try {
-        const filePath1 = `${submission_id}.cpp`;
-        await writeToFile(sourcefile, filePath1);
+        // const filePath1 = `${submission_id}.cpp`;
+        // await writeToFile(sourcefile, filePath1);
         
-        const filePath2 = `${submission_id}.txt`;
-        await writeToFile(inputfile, filePath2);
+        // const filePath2 = `${submission_id}.txt`;
+        // await writeToFile(inputfile, filePath2);
         
-        submission_id = JSON.stringify(submission_id);
+        // submission_id = JSON.stringify(submission_id);
         
         // Call createCppWorker function
-        createCppWorker(submission_id, filePath1, filePath2);
+        createCppWorker(submission_id, sourcefile, inputfile);
         
         // Read file content as base64
         // let filePath1="test1.cpp";
@@ -69,10 +69,10 @@ export async function runCode(submission_id, sourcefile, inputfile) {
         await doc.save();
       
         // Delete temporary files after 10 seconds
-        setTimeout(async () => {
-            await deleteFile(filePath1);
-            await deleteFile(filePath2);
-        }, 10000);
+        // setTimeout(async () => {
+        //     await deleteFile(filePath1);
+        //     await deleteFile(filePath2);
+        // }, 10000);
     } catch (error) {
         console.error('Error in runCode:', error);
         // Handle error here

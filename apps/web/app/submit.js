@@ -11,7 +11,7 @@ export async function handleCode(file1, file2, language){
         // console.log(file2);
         // console.log(language);
         // let tmp="fsd";
-        await axios.post("http://localhost:3001/send-to-kafka",{
+        await axios.post("http://localhost:3003/send-to-kafka",{
             file1,file2,language
         })
         .then(res=>{

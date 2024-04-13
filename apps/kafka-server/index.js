@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors()); // Use cors middleware
 app.post('/send-to-kafka', async (req, res) => {
   const { file1, file2, language } = req.body;
-  console.log(file1, file2);
+  // console.log(file1, file2);
 
   if (file1 && file2) {
     try {
@@ -24,6 +24,6 @@ app.post('/send-to-kafka', async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
+app.listen(3003, () => {
   console.log('Server running on port 3001');
 });
