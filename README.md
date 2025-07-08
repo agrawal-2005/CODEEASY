@@ -1,6 +1,5 @@
-#codeeditor
+# CodeEditor
 for sending the file to kafka server, send it to `localhost:3003`
-
 
 ## Using this example
 
