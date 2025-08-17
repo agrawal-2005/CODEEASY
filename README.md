@@ -1,6 +1,13 @@
-# CodeEasy: A Monorepo Code Editor and Contest Platform 🚀
+# CodeEasy: A Code Editor and Contest Platform 🚀
 
 This is a full-stack application built with Turborepo, Next.js, Express.js, and Kafka. It provides a web interface for users to submit code, which is then processed by a backend service via a message queue for execution.
+
+## Screenshots
+
+![CodeEasy Login_Page Screenshot](./Login.png)
+![CodeEasy Signup_Page Screenshot](./Signup.png)
+![CodeEasy Application/Contest_Page Screenshot](./Contest_page.png)
+
 
 ## Project Structure 🏗️
 
