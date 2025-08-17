@@ -5,16 +5,12 @@ const connectDB = async (DATABASE_URL) => {
     const DB_OPTIONS = {
       dbName: "Code-Editor"
     }
-    await mongoose.connect(DATABASE_URL, DB_OPTIONS,{
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,   })
-    console.log('Connected Successfully...')
+    // Corrected connect call
+    await mongoose.connect(DATABASE_URL, DB_OPTIONS);
+    console.log('Connected Successfully...');
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
-export default connectDB
-
-
+export default connectDB;

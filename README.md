@@ -1,81 +1,175 @@
-##codeeditor
-for sending the file to kafka server ,send it to `localhost:3003`
+# CodeEasy: A Monorepo Code Editor and Contest Platform 🚀
 
+This is a full-stack application built with Turborepo, Next.js, Express.js, and Kafka. It provides a web interface for users to submit code, which is then processed by a backend service via a message queue for execution.
 
-## Using this example
+## Project Structure 🏗️
 
-Run the following command:
+This project is a monorepo containing several applications and shared packages.
+
+```
+/
+├── apps/
+│   ├── web/          (Package name: "contest_frontend") - The Next.js frontend application.
+│   ├── server/       (Package name: "codeeditor") - The main backend Express.js server.
+│   ├── docs/         (Package name: "docs") - The documentation site.
+│   └── kafka-server/ (Package name: "kafka-server") - Handles incoming code submissions.
+└── packages/
+    ├── ui/           - Shared React components.
+    ├── eslint-config/ - Shared ESLint configuration.
+    └── typescript-config/ - Shared TypeScript configuration.
+```
+
+## Features ✨
+
+  * **Monorepo Architecture:** Managed with Turborepo for efficient development and builds.
+  * **Next.js Frontend:** A modern, server-rendered React application for the user interface.
+  * **Express.js Backend:** A robust Node.js server to handle API requests and business logic.
+  * **Asynchronous Code Execution:** Uses Kafka as a message broker to queue and process code submissions reliably.
+  * **Database Integration:** Connects to MongoDB Atlas for data persistence.
+  * **Live Development:** Uses `nodemon` for automatic backend restarts.
+  * **Containerized Services:** Uses Docker to run essential services like Kafka.
+
+-----
+
+## Prerequisites 🔧
+
+Before you begin, ensure you have the following installed on your system:
+
+  * [**Node.js**](https://nodejs.org/en/) (v18 or later)
+  * [**npm**](https://www.npmjs.com/) (comes with Node.js)
+  * [**Docker Desktop**](https://www.docker.com/products/docker-desktop/)
+  * A **MongoDB Atlas** account and a cluster set up.
+
+-----
+
+## Getting Started 🛠️
+
+Follow these steps to get the project running on your local machine.
+
+### 1\. Clone the Repository
+
+Clone this project to your local machine.
 
 ```sh
-npx create-turbo@latest
+git clone <your-repository-url>
+cd CODEEASY
 ```
 
-## What's inside?
+### 2\. Install Dependencies
 
-This Turborepo includes the following packages/apps:
+Install all the necessary dependencies for all packages from the root directory.
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```sh
+npm install
 ```
 
-### Develop
+### 3\. Set Up Environment Variables
 
-To develop all apps and packages, run the following command:
+Your backend server needs a `.env` file to connect to your database.
 
+1.  Navigate to the main backend server directory: `cd apps/server`.
+
+2.  Create a new file named `.env`.
+
+3.  Add your MongoDB Atlas connection string to this file. **Remember to replace `<username>`, `<password>`, and other placeholders with your actual database user credentials.**
+
+    ```
+    DATABASE_URI=mongodb+srv://<username>:<password>@your-cluster-address.mongodb.net/your_database_name?retryWrites=true&w=majority
+    ```
+
+4.  Navigate back to the root directory: `cd ../..`.
+
+### 4\. Start Dependent Services (Kafka)
+
+This project requires Kafka to be running. We use Docker to manage this.
+
+1.  Ensure Docker Desktop is open and running.
+2.  In a separate terminal window, navigate to the project root and run:
+    ```sh
+    docker-compose up
+    ```
+3.  Leave this terminal window running. It is now your Kafka server.
+
+-----
+
+## Development Commands 💻
+
+All commands should be run from the **root directory** of the project.
+
+### Running All Applications
+
+To start all applications (`contest_frontend`, `codeeditor`, etc.) at once:
+
+```sh
+npm run dev
 ```
-cd my-turborepo
-pnpm dev
+
+### Running a Single Application
+
+To run a specific application, use the `--filter` flag with the package's **official name**.
+
+  * **To run the Frontend Web App:**
+
+    ```sh
+    npm run dev -- --filter=contest_frontend
+    ```
+
+    This will start the Next.js app, typically on `http://localhost:3000`.
+
+  * **To run the Backend Server:**
+
+    ```sh
+    npm run dev -- --filter=codeeditor
+    ```
+
+    This will start the Express.js server, typically on `http://localhost:8000`.
+
+  * **To run the Worker Script (`server1.js`):**
+
+    ```sh
+    npm run dev:worker -- --filter=codeeditor
+    ```
+
+-----
+
+## Kafka Integration: Submitting Code for Execution 📨
+
+The system is designed to accept code submissions via a dedicated Kafka endpoint.
+
+### Submitting a File
+
+To send a file to the Kafka server for processing, send it to:
+**`http://localhost:3003`**
+
+*(This endpoint is likely managed by the `kafka-server` application.)*
+
+### Creating Kafka Topics
+
+Before the application can use a topic, it must be created. For example, to create the `CPP` topic for C++ code submissions:
+
+1.  Make sure your Docker Kafka container is running.
+2.  Open a new terminal and run the following command from the project root:
+    ```sh
+    docker-compose exec kafka kafka-topics --create --topic CPP --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+    ```
+    You should see a confirmation message: `Created topic CPP.`
+
+-----
+
+## Building for Production 📦
+
+To build all applications for production, run the following command from the root directory:
+
+```sh
+npm run build
 ```
 
-### Remote Caching
+-----
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## Included Utilities
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+This Turborepo includes:
 
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+  - **TypeScript** for static type checking.
+  - **ESLint** for code linting.
+  - **Prettier** for code formatting.

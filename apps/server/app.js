@@ -7,7 +7,7 @@ import userRoutes from './routes/userRoutes.js'
 import { run } from './controllers/consumer.js';
 
 const app = express()
-const port = process.env.PORT|8000
+const port = process.env.PORT ?? 8000;
 
 const DATABASE_URL = process.env.DATABASE_URL
 
